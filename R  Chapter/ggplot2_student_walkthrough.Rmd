@@ -1,0 +1,132 @@
+## **R Libraries: ggplot2**
+
+The R library `ggplot2` is a super useful tool we can use to create visualizations and explore our data.
+
+```{bash}
+install.packages("tidyverse")
+library("tidyverse")
+```
+
+More things we can do to get more information on R and what we're doing:
+
+```{bash}
+help()
+```
+
+We'll need a few more packages for our exploration usage, too. We can install them all at once by using the `c()` function, which creates a list. We'll open these packages with the `library()` function later.
+
+```{bash}
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+```
+
+Built in to our tidyverse are several data sets that we can play around with. In the below code block, we create a variable `myplot` and save the `mpg` database to it.
+
+```{r}
+data()
+```
+
+**Something you should be aware of and have open (perhaps on a second monitor, or you can print them out) is the ggplot2 cheat sheet!** <https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf>
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+Whoa, where'd count come from? **Count is not a variable or attribute of the variable diamonds!** Count comes automatically with a lot of graphs as an attribute. You can verify what I'm saying with `?diamonds` in the console.
+
+Any attribute of a data set that is algorithmically calculated is called a *stat*, which is short for a statistical transformation. Many of the **geom** functions have stats built in, and many stats display geoms. For example, the above code block used a geom, but this one uses a stat, and results in an identical chart:
+
+```{r}
+
+```
+
+Let's add color here!
+
+```{r}
+
+```
+
+What if we add to a different variable than cut?
+
+```{r}
+
+```
+
+**For your consideration...** Is the above a good graph?
+
+```{r}
+alt- becomes <- (option- on mac)
+```
+
+## Homework
+
+```{r}
+# Find a builtin data set for students to explore; use their cheat sheet from stats to label continuous and discrete data; Analyze that data set, create graphs, find a hypothesis
+#so I am choosing a data set called InsectSprays that contains info about the effectiveness of different insect sprays
+#start by poking around to check it out
+
+data("InsectSprays")    # Load the dataset
+#str(InsectSprays)       # Check the structure of the dataset
+#summary(InsectSprays)   # Get a summary of the data
+#head(InsectSprays)     # see top of table
+
+#the table contains a letter designating which spray and a count of insects. 
+#The count is discrete numerical data and the spray type is categorical data (also discrete)
+#My mission will be to find the most effective insect spray. We can plot the average insect count for each spray type. We can also count how much data we have from each spray (sample size)
+
+
+# Calculate the average count for each type
+spray_avg <- aggregate(count ~ spray, data = InsectSprays, FUN = mean)
+
+# Plot the average insect count for each spray type
+library(ggplot2)
+ggplot(spray_avg, aes(x = spray, y = count)) +
+    geom_bar(stat = "identity") +
+    labs(title = "Average Insect Count by Spray Type",
+         x = "Spray Type",
+         y = "Average Insect Count")
+
+#From our plot we can see that insect spray C was most effective in repelling bugs. It's also worth noting that sprays C, D, and E were all significantly more effective that sprays A, B and F. The company may want to investigate what change in the formulation has made one group of repellents more effective.
+
+#Next I want to see how much data we have for each spray to give us some estimate of confidence
+spray_counts <- table(InsectSprays$spray)
+print(spray_counts)
+
+#we see that there are exactly 12 data points for each spray, meaning this study was conducted fairly. This gives more credibility to the observations we made in the first study.
+
+##Last I am going to do a little check for major outliers. I'm going to make a box and whisker plot of the counts for each type and we can visually asses 
+ggplot(InsectSprays, aes(x = spray, y = count)) + 
+    geom_boxplot() +
+    labs(title = "Boxplot of Insect Counts by Spray Type",
+         x = "Spray Type",
+         y = "Insect Count")
+
+#checking out this plot we see that sprays C and D each have one outlier with significantly higher insect count. So even though spray C has the lowest average, it seems like spray E could be more reliable. I would recommend the company conduct further trials with the two sprays. 
+```
