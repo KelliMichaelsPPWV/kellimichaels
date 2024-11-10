@@ -1,0 +1,203 @@
+## Functions and Conditionals
+
+### Conditionals
+
+The basic syntax for an if statement goes like this:
+
+```{r}
+if (logical statement) {
+  do something
+} else {
+  do something else
+}
+```
+
+The logical statements should boil down to a boolean; for example:
+
+```{r}
+
+```
+
+We can also add else if statements in the middle if we need more options.
+
+```{r}
+
+```
+
+Neat! We can also nest conditionals just like we do in Python.
+
+```{r}
+
+    
+```
+
+Neat! Now, let's look at another core part of R programming - Loops!
+
+### Loops
+
+```{r}
+
+```
+
+We can also do nifty stuff with our vectors, such as apply changes to specific indices of our data.
+
+```{r}
+
+```
+
+We can loop over more than just lists:
+
+```{r}
+
+```
+
+Like Python, we have while loops in R:
+
+```{r}
+
+```
+
+## Functions
+
+When should we use functions?
+
+```{r}
+our_function <- function(optional_params){
+  # do some stuff
+}
+```
+
+An example:
+
+```{r}
+
+```
+
+This is all cool.. but it didn't do anything. We need to call the function!
+
+```{r}
+
+```
+
+Notice that in the background here, we are looping over each item in the array, but we never write a for loop! Keep this in mind, since when you pass in a large data set, the changes made by functions aren't quite immediate - the computer does have to go over each item in your data set, and change them one at a time.
+
+A shortcut of sorts is to use the `apply()` function, which operates very similarly to Python's `map()`. Note that `apply` syntax goes as follows: `apply(X, MARGIN, FUN)` where X is the data set to use, MARGIN is specification for rows or columns, and FUN is the function to apply.
+
+```{r}
+
+```
+
+It is common to use `mean`, `median`, `sum`, `min`, or `max` with `apply`, but we can also use our user-defined functions as well. Note that apply() only works with matrices.
+
+```{r}
+
+```
+
+### Homework
+
+1.  Do 5 CodeWars problems in R. Share your solutions here:
+
+    ```{##Write a function named sumDigits which takes a number as input and returns the sum of the absolute value of each of the number's decimal digits.}
+
+    sum_digits <- function(number) {
+      # convert the absolute value of the number to a string
+      digits <- as.character(abs(number))
+      
+      # split string into individual characters, convert to numeric, and sum them
+      sum(as.numeric(strsplit(digits, "")[[1]]))
+    }
+
+    ##The two oldest ages function/method needs to be completed. It should take an array of numbers as its argument and return the two highest numbers within the array. The returned value should be an array in the format [second oldest age,  oldest age].
+
+    two_oldest_ages <- function(ages) {
+      # sort the ages in ascending order
+      sorted_ages <- sort(ages, decreasing = FALSE)
+      
+      # get the last two elements (the two highest ages)
+      result <- sorted_ages[(length(sorted_ages) - 1):length(sorted_ages)]
+      
+      return(result)
+    }
+
+    #You will be given an array and a limit value. You must check that all values in the array are below or equal to the limit value. If they are, return true. Else, return false.
+
+    small_enough <- function(vector, limit) {
+      # check if all elements in the vector are less than or equal to the limit
+      return(all(vector <= limit))
+    }
+
+    #Your task is to split the chocolate bar of given dimension n x m into small squares. Each square is of size 1x1 and unbreakable. Implement a function that will return minimum number of breaks needed. For example if you are given a chocolate bar of size 2 x 1 you can split it to single squares in just one break, but for size 3 x 1 you must do two breaks.
+
+    break_chocolate <- function(n, m) {
+      # check for invalid dimensions
+      if (n <= 0 || m <= 0) {
+        return(0)
+      }
+      
+      # calculate the minimum number of breaks
+      return(n * m - 1)
+    }
+
+    ##Your task is to make a function that can take any non-negative integer as an argument and return it with its digits in descending order. Essentially, rearrange the digits to create the highest possible number.
+
+    descending_order <- function(num) {
+      # convert number to a character vector of digits
+      digits <- strsplit(as.character(num), "")[[1]]
+      
+      # sort digits in descending order and paste back together
+      sorted_digits <- paste(sort(digits, decreasing = TRUE), collapse = "")
+      
+      # convert back to a number
+      return(as.numeric(sorted_digits))
+    }
+
+
+    ```
+
+2.  Create a function that checks an input of type `int` and returns fizz if the number is a multiple of 3, buzz if the number is a multiple of 5, and fizzbuzz if the number is a multiple of 3 and 5.
+
+    ```{#this is just an if statement with 4 options}
+
+
+    fizzbuzz <- function(num) {
+      if (num %% 3 == 0 && num %% 5 == 0) {
+        return("fizzbuzz")
+      } else if (num %% 3 == 0) {
+        return("fizz")
+      } else if (num %% 5 == 0) {
+        return("buzz")
+      } else {
+        #print neither
+        return("niether fizz nor buzz")  
+      }
+    }
+
+    #check it
+    print(fizzbuzz(22))
+    ```
+
+3.  **Mario Challenge:** In the classic Super Mario games, Mario ends each level by ascending a flight of stairs and leaping off the top to arrive at the castle at the end. (See [here](https://youtu.be/-avspZlbOWU?t=55) for details). We can imagine that each of the bricks of the stairs is a character X. Create a function that prints out a set of stairs. For example:
+
+    If the function is called marioStairs() and we pass in the value 4, we would expect to see stairs with a length of 4 and a height of 4:
+
+    X
+
+    XX
+
+    XXX
+
+    XXXX
+
+    ```{r}
+    # Our stairs will mimic the shape of the example (going down from left to right)
+
+
+    marioStairs <- function(height) {
+      #for loop where we make each row in range one to height
+      for (i in 1:height) {
+        cat(rep("X", i), "\n", sep = "") #repeat 'X' i times, new line
+      }
+    }
+
+
+    ```
